@@ -9,6 +9,7 @@ export class CheckoutPage {
   private continueButton = '[data-test="continue"]';
   private finishButton = '[data-test="finish"]';
   private confirmationMessage = '.complete-header';
+  private subtotalLabel = '.summary_subtotal_label';
 
   constructor(page: Page) {
     this.page = page;
@@ -32,5 +33,14 @@ export class CheckoutPage {
 
   async verifyOrderCompletion() {
     await expect(this.page.locator(this.confirmationMessage)).toHaveText('Thank you for your order!');
+  }
+
+   async verifySubtotal(expectedValue: number) {
+    const subtotalText = await this.page.locator(this.subtotalLabel).textContent();
+    const numericValue = parseFloat(
+      subtotalText!.replace('Item total: $', '').replace('Total: $', '').trim()
+    );
+
+    expect(numericValue).toBeCloseTo(expectedValue, 2); 
   }
 }

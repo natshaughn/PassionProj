@@ -14,8 +14,14 @@ export class InventoryPage {
   }
 
   async addProductToCart(productId: string) {
-    await this.page.click(`[data-test="add-to-cart-${productId}"]`);
+    const selector = `[data-test="add-to-cart-${productId}"]`;
+    await this.page.waitForSelector(selector, { state: 'visible' });
+    const button = this.page.locator(selector);
+    await button.scrollIntoViewIfNeeded();
+    await button.click({ force: true });
   }
+  
+  
 
   async verifyCartCount(expectedCount: string) {
     await expect(this.page.locator(this.cartBadge)).toHaveText(expectedCount);
