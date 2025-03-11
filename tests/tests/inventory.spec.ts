@@ -24,4 +24,16 @@ test.describe('Inventory Tests', () => {
     const inventoryPage = new InventoryPage(page);
     await inventoryPage.verifyProductPrice('Sauce Labs Backpack', '$29.99');
   });
+
+  test('Add all 6 products to cart', async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    await inventoryPage.addProductToCart('sauce-labs-backpack');
+    await inventoryPage.addProductToCart('sauce-labs-bike-light');
+    await inventoryPage.addProductToCart('sauce-labs-bolt-t-shirt');
+    await inventoryPage.addProductToCart('sauce-labs-fleece-jacket');
+    await inventoryPage.addProductToCart('sauce-labs-onesie');
+    await inventoryPage.addProductToCart('test.allthethings()-t-shirt-(red)');
+    await inventoryPage.verifyCartCount('6');
+  });
+  
 });
